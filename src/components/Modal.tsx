@@ -17,6 +17,9 @@ const RegistrationModal = () => {
               id="name"
               placeholder="Enter the name of your art"
               className="form-input"
+              style={{
+                width: "95%",
+              }}
             />
           </div>
 
@@ -30,6 +33,9 @@ const RegistrationModal = () => {
               id="phone"
               placeholder="Enter your phone number"
               className="form-input"
+              style={{
+                width: "95%",
+              }}
             />
           </div>
 
