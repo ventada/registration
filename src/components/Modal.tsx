@@ -47,14 +47,18 @@ const RegistrationModal = () => {
           </div>
 
           {/* Pay Currency Section */}
-          <div className="form-group">
+          <div className="form-group" style={{}}>
             <label>Pay Currency</label>
             <div className="button-group">
+              <select id="source" className="form-input">
+                <option value="ریال">ریال</option>
+                <option value="USD">USD</option>
+              </select>
               <button type="button" className="currency-button">
-                ریال
+                paypal
               </button>
               <button type="button" className="currency-button">
-                USDT
+                visa
               </button>
             </div>
           </div>
