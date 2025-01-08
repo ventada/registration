@@ -1,4 +1,7 @@
 import "./RegistrationModal.css"; // Import the CSS file
+import Paypal from "./images/paypal.svg";
+import ParsTech from "./images/ParsTech-logo.svg";
+import Mastercard from "./images/Mastercard.svg";
 
 const RegistrationModal = () => {
   return (
@@ -61,10 +64,13 @@ const RegistrationModal = () => {
                 <option value="USD">USD</option>
               </select>
               <button type="button" className="currency-button">
-                paypal
+                <img src={ParsTech} alt="" />
               </button>
               <button type="button" className="currency-button">
-                visa
+                <img src={Mastercard} alt="" />
+              </button>
+              <button type="button" className="currency-button">
+                <img src={Paypal} alt="" />
               </button>
             </div>
           </div>
