@@ -1,15 +1,39 @@
+import { useState } from "react";
 import "./RegistrationModal.css"; // Import the CSS file
-import Paypal from "./images/paypal.svg";
-import ParsTech from "./images/ParsTech-logo.svg";
-import Mastercard from "./images/Mastercard.svg";
 
 const RegistrationModal = () => {
+  const [paymentMethod, setPaymentMethod] = useState("USD");
   return (
     <div className="modal-overlay">
       <div className="modal-container">
         <h2 className="modal-title">Registration Forms</h2>
 
         <form>
+          {/* Pay Currency Section */}
+          <div className="form-group" style={{}}>
+            <label>Pay Currency</label>
+            <div className="button-group">
+              <select
+                onChange={(e) => {
+                  setPaymentMethod(e.target.value);
+                }}
+                id="source"
+                className="form-input"
+              >
+                <option value="USD">USD</option>
+                <option value="other">other</option>
+              </select>
+              {/* <button type="button" className="currency-button">
+                <img src={ParsTech} alt="" />
+              </button>
+              <button type="button" className="currency-button">
+                <img src={Mastercard} alt="" />
+              </button>
+              <button type="button" className="currency-button">
+                <img src={Paypal} alt="" />
+              </button> */}
+            </div>
+          </div>
           {/* Name Input */}
           <div className="form-group">
             <label htmlFor="name">
@@ -23,6 +47,7 @@ const RegistrationModal = () => {
               style={{
                 width: "95%",
               }}
+              disabled={paymentMethod == "other"}
             />
           </div>
 
@@ -39,6 +64,7 @@ const RegistrationModal = () => {
               style={{
                 width: "95%",
               }}
+              disabled={paymentMethod == "other"}
             />
           </div>
 
@@ -47,32 +73,17 @@ const RegistrationModal = () => {
             <label htmlFor="source">
               Where did you hear about us? <span className="required">*</span>
             </label>
-            <select id="source" className="form-input">
+
+            <select
+              disabled={paymentMethod == "other"}
+              id="source"
+              className="form-input"
+            >
               <option>Instagram</option>
               <option>Facebook</option>
               <option>Google</option>
               <option>Other</option>
             </select>
-          </div>
-
-          {/* Pay Currency Section */}
-          <div className="form-group" style={{}}>
-            <label>Pay Currency</label>
-            <div className="button-group">
-              <select id="source" className="form-input">
-                <option value="ریال">ریال</option>
-                <option value="USD">USD</option>
-              </select>
-              <button type="button" className="currency-button">
-                <img src={ParsTech} alt="" />
-              </button>
-              <button type="button" className="currency-button">
-                <img src={Mastercard} alt="" />
-              </button>
-              <button type="button" className="currency-button">
-                <img src={Paypal} alt="" />
-              </button>
-            </div>
           </div>
 
           {/* Amount Input */}
@@ -84,8 +95,12 @@ const RegistrationModal = () => {
                 id="amount"
                 placeholder="8.000.000"
                 className="form-input"
+                style={{
+                  width: "95%",
+                }}
+                disabled={paymentMethod == "other"}
               />
-              <span className="input-suffix">ریال</span>
+              <span className="input-suffix">USD</span>
             </div>
           </div>
 
