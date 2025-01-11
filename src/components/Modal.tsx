@@ -105,7 +105,15 @@ const RegistrationModal = () => {
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className="submit-button">
+          <button
+            onClick={() => {
+              if (paymentMethod == "other") {
+                window.open("https://zarinp.al/667293", "_blank");
+              }
+            }}
+            type="submit"
+            className="submit-button"
+          >
             Submit Payment
           </button>
         </form>
