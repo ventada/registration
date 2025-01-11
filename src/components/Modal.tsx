@@ -1,39 +1,82 @@
 import { useState } from "react";
-import "./RegistrationModal.css"; // Import the CSS file
+import "./RegistrationModal.css";
 
 const RegistrationModal = () => {
   const [paymentMethod, setPaymentMethod] = useState("USD");
+
+  const [formInfo, setFormInfo] = useState({
+    amount: "100",
+    information: {
+      name: "",
+      email: "",
+      phoneNumber: "",
+      reason: "",
+    },
+  });
+
+  const handleInputChange = (field: any, value: any) => {
+    setFormInfo((prev) => ({
+      ...prev,
+      information: {
+        ...prev.information,
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleAmountChange = (value: any) => {
+    setFormInfo((prev) => ({
+      ...prev,
+      amount: value,
+    }));
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "https://masterpiece-api.sensifia.vc/invoices/stripe",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formInfo),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok && data.checkoutLink) {
+        window.location.href = data.checkoutLink; // Redirect to Stripe checkout
+      } else {
+        alert("Error creating invoice. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-container">
         <h2 className="modal-title">Registration Forms</h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* Pay Currency Section */}
-          <div className="form-group" style={{}}>
+          <div className="form-group">
             <label>Pay Currency</label>
-            <div className="button-group">
-              <select
-                onChange={(e) => {
-                  setPaymentMethod(e.target.value);
-                }}
-                id="source"
-                className="form-input"
-              >
-                <option value="USD">USD</option>
-                <option value="other">other</option>
-              </select>
-              {/* <button type="button" className="currency-button">
-                <img src={ParsTech} alt="" />
-              </button>
-              <button type="button" className="currency-button">
-                <img src={Mastercard} alt="" />
-              </button>
-              <button type="button" className="currency-button">
-                <img src={Paypal} alt="" />
-              </button> */}
-            </div>
+            <select
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              id="source"
+              className="form-input"
+              value={paymentMethod}
+            >
+              <option value="USD">USD</option>
+            </select>
           </div>
+
           {/* Name Input */}
           <div className="form-group">
             <label htmlFor="name">
@@ -44,10 +87,12 @@ const RegistrationModal = () => {
               id="name"
               placeholder="Enter the name of your art"
               className="form-input"
+              value={formInfo.information.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              disabled={paymentMethod === "other"}
               style={{
                 width: "95%",
               }}
-              disabled={paymentMethod == "other"}
             />
           </div>
 
@@ -61,10 +106,12 @@ const RegistrationModal = () => {
               id="phone"
               placeholder="Enter your phone number"
               className="form-input"
+              value={formInfo.information.phoneNumber}
+              onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+              disabled={paymentMethod === "other"}
               style={{
                 width: "95%",
               }}
-              disabled={paymentMethod == "other"}
             />
           </div>
 
@@ -73,16 +120,17 @@ const RegistrationModal = () => {
             <label htmlFor="source">
               Where did you hear about us? <span className="required">*</span>
             </label>
-
             <select
-              disabled={paymentMethod == "other"}
               id="source"
               className="form-input"
+              disabled={paymentMethod === "other"}
+              onChange={(e) => handleInputChange("reason", e.target.value)}
+              value={formInfo.information.reason}
             >
-              <option>Instagram</option>
-              <option>Facebook</option>
-              <option>Google</option>
-              <option>Other</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Google">Google</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 
@@ -95,25 +143,19 @@ const RegistrationModal = () => {
                 id="amount"
                 placeholder="8.000.000"
                 className="form-input"
+                value={formInfo.amount}
+                onChange={(e) => handleAmountChange(e.target.value)}
+                disabled={true}
                 style={{
                   width: "95%",
                 }}
-                disabled={paymentMethod == "other"}
               />
               <span className="input-suffix">USD</span>
             </div>
           </div>
 
           {/* Submit Button */}
-          <button
-            onClick={() => {
-              if (paymentMethod == "other") {
-                window.open("https://zarinp.al/667293", "_blank");
-              }
-            }}
-            type="submit"
-            className="submit-button"
-          >
+          <button type="submit" className="submit-button">
             Submit Payment
           </button>
         </form>
