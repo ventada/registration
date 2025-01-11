@@ -99,7 +99,13 @@ select:disabled {
   font-weight: 500;
   cursor: pointer;
 }
+.submit-button:disabled {
+  background-color: #454547;
+}
 
 .submit-button:hover {
   background-color: #00072f;
+}
+.submit-button:hover:disabled {
+  background-color: #454547;
 }

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./RegistrationModal.css";
+import SimpleSpinner from "./SimpleSpinner";
 
 const RegistrationModal = () => {
   const [paymentMethod, setPaymentMethod] = useState("USD");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formInfo, setFormInfo] = useState({
     amount: "100",
@@ -31,8 +33,13 @@ const RegistrationModal = () => {
     }));
   };
 
+  const isFormValid =
+    formInfo.information.name.trim() !== "" &&
+    formInfo.information.phoneNumber.trim() !== "";
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await fetch(
@@ -55,6 +62,8 @@ const RegistrationModal = () => {
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -155,8 +164,12 @@ const RegistrationModal = () => {
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className="submit-button">
-            Submit Payment
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={!isFormValid}
+          >
+            {isLoading ? <SimpleSpinner /> : "Submit Payment"}
           </button>
         </form>
       </div>
