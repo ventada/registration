@@ -1,8 +1,4 @@
-import React from "react";
-
-type Props = {};
-
-const Telegram = (props: Props) => {
+const Telegram = () => {
   return <div>Telegram</div>;
 };
 
