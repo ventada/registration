@@ -1,10 +1,12 @@
 const Telegram = () => {
   return (
     <div
-      onClick={
+      onClick={() => {
+        console.log("s.kef");
+
         //@ts-ignore
-        window.Telegram.WebApp.sendData("Hi from netlify")
-      }
+        window.Telegram.WebApp.sendData("Hi from netlify");
+      }}
     >
       Telegram
     </div>
